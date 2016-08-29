@@ -1,4 +1,6 @@
 /**
+ * This is a sample component not being used!
+ *
  * In this file, we create a React component
  * which incorporates components providedby material-ui.
  */
