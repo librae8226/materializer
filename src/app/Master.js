@@ -1,18 +1,27 @@
 import React from 'react';
+import Avatar from 'material-ui/Avatar';
+import Dialog from 'material-ui/Dialog';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import SVGIconNavigationRight from 'material-ui/svg-icons/navigation/chevron-right'
 import SVGIconNavigationLeft from 'material-ui/svg-icons/navigation/chevron-left'
 import SVGIconActionInfo from 'material-ui/svg-icons/action/info'
 import SVGIconActionDashboard from 'material-ui/svg-icons/action/dashboard'
+import SVGIconActionHome from 'material-ui/svg-icons/action/home'
 import SVGIconContentCreate from 'material-ui/svg-icons/content/create'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {deepOrange500} from 'material-ui/styles/colors';
 import AppBar from 'material-ui/AppBar';
 import Divider from 'material-ui/Divider';
+
+import {
+  deepOrange500,
+  grey800,
+  cyan500,
+} from 'material-ui/styles/colors';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -21,6 +30,14 @@ const muiTheme = getMuiTheme({
 });
 
 const styles = {
+  profile: {
+    backgroundColor: cyan500,
+    lineHeight: '64px',
+    fontSize: '20px',
+  },
+  avatar: {
+    marginRight: 20,
+  },
   menu: {
     zIndex: 1,
     position: 'fixed',
@@ -48,32 +65,108 @@ class Master extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {open: false, content: '#'};
+    this.state = {
+      open: false,
+      content: 'http://docker.accrete.org:8000/red/ui',
+      openDialogAbout: false,
+      openDialogAvatar: false,
+    };
   }
 
-  handleToggle = () => this.setState({open: !this.state.open});
-  handleClose = () => this.setState({open: false});
+  handleToggle = () => {
+    this.setState({open: !this.state.open});
+  }
+
+  handleClose = () => {
+    this.setState({open: false});
+  }
+
+  handleDialogAboutOpen = () => {
+    this.setState({openDialogAbout: true});
+  }
+
+  handleDialogAboutClose = () => {
+    this.setState({openDialogAbout: false});
+  }
+
+  handleDialogAvatarOpen = () => {
+    this.setState({openDialogAvatar: true});
+  }
+
+  handleDialogAvatarClose = () => {
+    this.setState({openDialogAvatar: false});
+  }
+
+  handleDialogAvatarSubmit= () => {
+    this.handleDialogAvatarClose();
+  }
+
+  handleSelectAvatar = () => {
+    this.handleDialogAvatarOpen();
+  }
 
   handleSelectNodeREDUI = () => {
     var url = 'http://docker.accrete.org:8000/red/ui'
     this.setState({content: url});
     console.log(this.state);
   }
+
   handleSelectNodeRED = () => {
     var url = 'http://docker.accrete.org:8000/red'
     this.setState({content: url});
     console.log(this.state);
   }
+
   handleSelectAbout = () => {
-    var url = 'http://linkgo.io';
-    this.setState({content: url});
-    console.log(this.state);
+    this.handleDialogAboutOpen();
+  }
+
+  handleSelectHome= () => {
+    location.href = 'http://linkgo.io';
   }
 
   render() {
+    const dialogAboutActions = [
+      <FlatButton
+        label="OK"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.handleDialogAboutClose}
+      />,
+    ];
+    const dialogAvatarActions = [
+      <FlatButton
+        label="Close"
+        primary={true}
+        onTouchTap={this.handleDialogAvatarClose}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        onTouchTap={this.handleDialogAvatarSubmit}
+      />,
+    ];
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div>
+          <Dialog
+            title="About Materilizer"
+            actions={dialogAboutActions}
+            modal={false}
+            open={this.state.openDialogAbout}
+            onRequestClose={this.handleDialogAboutClose}
+          >
+            Materilizer, plays the role of a web container.
+          </Dialog>
+          <Dialog
+            title="Profile"
+            actions={dialogAvatarActions}
+            modal={false}
+            open={this.state.openDialogAvatar}
+            onRequestClose={this.handleDialogAvatarClose}
+          >
+            Edit profile here.
+          </Dialog>
           <IconButton style={styles.menu} onTouchTap={this.handleToggle}>
             <SVGIconNavigationRight color={'white'} />
           </IconButton>
@@ -82,11 +175,32 @@ class Master extends React.Component {
             open={this.state.open}
             onRequestChange={(open) => this.setState({open})}
           >
-            <AppBar title='AppBar' />
-            <MenuItem onTouchTap={this.handleSelectNodeREDUI} leftIcon={<SVGIconActionDashboard />}>Node-RED UI</MenuItem>
-            <MenuItem onTouchTap={this.handleSelectNodeRED} leftIcon={<SVGIconContentCreate />}>Node-RED Editor</MenuItem>
+
+            <MenuItem onTouchTap={this.handleSelectAvatar} style={styles.profile}>
+              <Avatar backgroundColor={grey800} style={styles.avatar}>L</Avatar>
+              Librae
+            </MenuItem>
+
             <Divider />
-            <MenuItem onTouchTap={this.handleSelectAbout} leftIcon={<SVGIconActionInfo />}>About</MenuItem>
+
+            <MenuItem onTouchTap={this.handleSelectNodeREDUI} leftIcon={<SVGIconActionDashboard />}>
+              Node-RED UI
+            </MenuItem>
+
+            <MenuItem onTouchTap={this.handleSelectNodeRED} leftIcon={<SVGIconContentCreate />}>
+              Node-RED Editor
+            </MenuItem>
+
+            <Divider />
+
+            <MenuItem onTouchTap={this.handleSelectAbout} leftIcon={<SVGIconActionInfo />}>
+              About
+            </MenuItem>
+
+            <MenuItem onTouchTap={this.handleSelectHome} leftIcon={<SVGIconActionHome />}>
+              linkgo.io
+            </MenuItem>
+
             <IconButton style={styles.hide} onTouchTap={this.handleToggle}>
               <SVGIconNavigationLeft color={'white'} />
             </IconButton>
@@ -101,8 +215,3 @@ class Master extends React.Component {
 }
 
 export default Master;
-
-/*
- * RETAINED STUFFS
- * <object style={styles.container} type='text/html' data='http://docker.accrete.org:8000/red' />
- */
