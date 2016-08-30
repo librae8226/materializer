@@ -108,12 +108,14 @@ class Master extends React.Component {
   handleSelectNodeREDUI = () => {
     var url = 'http://docker.accrete.org:8000/red/ui'
     this.setState({content: url});
+    this.handleClose();
     console.log(this.state);
   }
 
   handleSelectNodeRED = () => {
     var url = 'http://docker.accrete.org:8000/red'
     this.setState({content: url});
+    this.handleClose();
     console.log(this.state);
   }
 
