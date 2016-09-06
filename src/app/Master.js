@@ -6,6 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
+import SVGIconNavigationApps from 'material-ui/svg-icons/navigation/apps'
 import SVGIconNavigationRight from 'material-ui/svg-icons/navigation/chevron-right'
 import SVGIconNavigationLeft from 'material-ui/svg-icons/navigation/chevron-left'
 import SVGIconActionInfo from 'material-ui/svg-icons/action/info'
@@ -16,6 +17,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import Divider from 'material-ui/Divider';
+import Main from './Main';
 
 import {
   deepOrange500,
@@ -67,7 +69,7 @@ class Master extends React.Component {
     super(props);
     this.state = {
       open: false,
-      content: 'http://docker.accrete.org:8000/red/ui',
+      content: '',
       openDialogAbout: false,
       openDialogAvatar: false,
     };
@@ -104,6 +106,13 @@ class Master extends React.Component {
 
   handleSelectAvatar = () => {
     this.handleDialogAvatarOpen();
+  }
+
+  handleSelectOverview = () => {
+    var url = ''
+    this.setState({content: url});
+    this.handleClose();
+    console.log(this.state);
   }
 
   handleSelectNodeREDUI = () => {
@@ -189,6 +198,10 @@ class Master extends React.Component {
 
             <Divider />
 
+            <MenuItem onTouchTap={this.handleSelectOverview} leftIcon={<SVGIconNavigationApps/>}>
+              Overview
+            </MenuItem>
+
             <MenuItem onTouchTap={this.handleSelectNodeREDUI} leftIcon={<SVGIconActionDashboard />}>
               Node-RED UI
             </MenuItem>
@@ -211,9 +224,13 @@ class Master extends React.Component {
               <SVGIconNavigationLeft color={'white'} />
             </IconButton>
           </Drawer>
-          <div>
-            <object style={styles.container} type='text/html' data={this.state.content} />
-          </div>
+          {
+            this.state.content !== '' ?
+            <div>
+              <object style={styles.container} type='text/html' data={this.state.content} />
+            </div> :
+            <Main />
+          }
         </div>
       </MuiThemeProvider>
     );
