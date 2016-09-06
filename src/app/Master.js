@@ -71,6 +71,7 @@ class Master extends React.Component {
       openDialogAbout: false,
       openDialogAvatar: false,
     };
+    this.name = props.name;
   }
 
   handleToggle = () => {
@@ -121,6 +122,7 @@ class Master extends React.Component {
 
   handleSelectAbout = () => {
     this.handleDialogAboutOpen();
+    console.log('name: ' + this.name);
   }
 
   handleSelectHome= () => {
@@ -168,6 +170,8 @@ class Master extends React.Component {
             onRequestClose={this.handleDialogAvatarClose}
           >
             Edit profile here.
+            <br/>
+            Name: {this.name}
           </Dialog>
           <IconButton style={styles.menu} onTouchTap={this.handleToggle}>
             <SVGIconNavigationRight color={'white'} />
