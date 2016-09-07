@@ -7,6 +7,7 @@
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
+import Divider from 'material-ui/Divider';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import FlatButton from 'material-ui/FlatButton';
 import SVGIconActionPower from 'material-ui/svg-icons/action/power-settings-new'
@@ -23,8 +24,8 @@ import {
 
 const styles = {
   container: {
-    textAlign: 'center',
-    //paddingTop: '15%',
+    //textAlign: 'center',
+    paddingTop: '15%',
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
@@ -46,18 +47,18 @@ const styles = {
     width: 240,
     height: 300,
     margin: 10,
-    float: 'left',
+    float: 'right',
   },
   heading: {
-    fontSize: 20,
+    fontSize: 16,
     paddingTop: 19,
     marginBottom: 13,
+    marginLeft: 13,
     letterSpacing: 0,
-    backgroundColor: grey200,
-    textAlign: 'center',
-    margin: 0,
+    textAlign: 'left',
+    margin: 10,
     padding: 0,
-    lineHeight: '50px',
+    lineHeight: '20px',
   },
 };
 
@@ -146,30 +147,37 @@ class Main extends Component {
             Are you sure ready to take the adventure?
           </Dialog>
           <Paper style={styles.paper}>
-            <h1 style={styles.heading}>Material-UI</h1>
-            <h2>the cloud of REDs</h2>
+            <h1 style={styles.heading}>&nbsp;</h1>
             <RaisedButton
               label="Super Secret World"
               secondary={true}
               onTouchTap={this.handleTouchTap}
+              style={{marginLeft: 10}}
             />
           </Paper>
           <Paper style={styles.paper}>
-            <h1 style={styles.heading}>Power</h1>
+            <h1 style={styles.heading}>&nbsp;</h1>
             <FlatButton
               label={this.state.ready ? "Stop" : "Start"}
               primary={!this.state.ready}
               secondary={this.state.ready}
               onTouchTap={this.state.ready ? this.handleTouchTapStop : this.handleTouchTapStart}
               icon={<SVGIconActionPower />}
+              style={{marginLeft: 10}}
             />
             <RefreshIndicator
               size={30}
               left={10}
-              top={8}
+              top={7}
               status={this.state.status}
               style={styles.refresh}
             />
+            <p style={{textAlign: 'left', marginLeft: 10}}>up time:</p>
+            <Divider style={{marginLeft: 10, marginRight: 10}} />
+            <p style={{textAlign: 'left', marginLeft: 10}}>storage:</p>
+            <Divider style={{marginLeft: 10, marginRight: 10}} />
+            <p style={{textAlign: 'left', marginLeft: 10}}>number of nodes:</p>
+            <Divider style={{marginLeft: 10, marginRight: 10}} />
           </Paper>
         </div>
       </MuiThemeProvider>
