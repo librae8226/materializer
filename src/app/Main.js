@@ -82,6 +82,8 @@ class Main extends Component {
       status: 'hide',
       ready: false, // get from real status
     };
+
+    this.onUpdateState = props.onUpdateState;
   }
 
   handleRequestClose() {
@@ -106,6 +108,8 @@ class Main extends Component {
 
   onDoStarted() {
     this.setState({status: 'hide', ready: true});
+    if (this.onUpdateState)
+      this.onUpdateState(this.state.ready);
   }
 
   doStop() {
@@ -115,6 +119,8 @@ class Main extends Component {
 
   onDoStopped() {
     this.setState({status: 'hide', ready: false});
+    if (this.onUpdateState)
+      this.onUpdateState(this.state.ready);
   }
 
   handleTouchTapStop() {

@@ -72,8 +72,14 @@ class Master extends React.Component {
       content: '',
       openDialogAbout: false,
       openDialogAvatar: false,
+      ready: false,
     };
     this.name = props.name;
+  }
+
+  onUpdateStateReady = (ready) => {
+    this.setState({ready: ready});
+    console.log(this.state);
   }
 
   handleToggle = () => {
@@ -202,11 +208,11 @@ class Master extends React.Component {
               Overview
             </MenuItem>
 
-            <MenuItem onTouchTap={this.handleSelectNodeREDUI} leftIcon={<SVGIconActionDashboard />}>
+            <MenuItem onTouchTap={this.handleSelectNodeREDUI} leftIcon={<SVGIconActionDashboard />} disabled={!this.state.ready}>
               Node-RED UI
             </MenuItem>
 
-            <MenuItem onTouchTap={this.handleSelectNodeRED} leftIcon={<SVGIconContentCreate />}>
+            <MenuItem onTouchTap={this.handleSelectNodeRED} leftIcon={<SVGIconContentCreate />} disabled={!this.state.ready}>
               Node-RED Editor
             </MenuItem>
 
@@ -229,7 +235,7 @@ class Master extends React.Component {
             <div>
               <object style={styles.container} type='text/html' data={this.state.content} />
             </div> :
-            <Main />
+            <Main onUpdateState={this.onUpdateStateReady} />
           }
         </div>
       </MuiThemeProvider>
